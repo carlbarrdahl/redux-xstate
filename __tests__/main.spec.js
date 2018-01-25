@@ -25,15 +25,13 @@ describe("xstate middleware", () => {
         on: {
           TIMER: "green"
         },
-        onEntry: ["mockFn"]
-      },
-      states: {
         initial: "walk",
         states: {
           walk: {
             on: {
               PED_COUNTDOWN: "wait"
-            }
+            },
+            onEntry: ["mockFn"]
           },
           wait: {
             on: {
@@ -64,7 +62,7 @@ describe("xstate middleware", () => {
   it("trigger actions", () => {
     store.dispatch({ type: "TIMER" })
 
-    expect(store.getState().machine.value).toBe("red")
+    expect(store.getState().machine.value).toEqual({ red: "walk" })
     expect(actionMap.mockFn).toBeCalled()
   })
 })

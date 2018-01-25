@@ -1,11 +1,11 @@
 function getActions(states) {
   return Object.keys(states)
-    .map(
-      key =>
-        states[key].states
-          ? getActions(states[key].states)
-          : states[key].on ? Object.keys(states[key].on) : []
-    )
+    .map(key => {
+      const state = states[key]
+      const actions = Object.keys(state.on || {})
+
+      return state.states ? getActions(state.states) : actions
+    })
     .reduce((a, b) => a.concat(b), [])
     .filter((key, pos, arr) => arr.indexOf(key) === pos)
 }
