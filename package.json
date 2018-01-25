@@ -1,0 +1,56 @@
+{
+  "name": "redux-xstate",
+  "version": "0.1.0",
+  "description": "xstate middleware for redux",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "NODE_ENV=production babel src -d dist",
+    "prepublish": "npm run build",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "redux",
+    "xstate",
+    "redux-xstate",
+    "middleware"
+  ],
+  "author": "Carl Barrdahl <carlbarrdahl@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/carlbarrdahl/redux-xstate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlbarrdahl/redux-xstate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/carlbarrdahl/redux-xstate/issues"
+  },
+  "module": "src/index.js",
+  "engines": {
+    "node": ">=6"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-jest": "^21.2.0",
+    "babel-preset-env": "^1.6.0",
+    "coveralls": "^3.0.0",
+    "jest": "^21.2.1",
+    "redux": "^3.7.2",
+    "xstate": "^3.0.3"
+  },
+  "jest": {
+    "notify": true,
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "testMatch": [
+      "**/__tests__/**/*.spec.js"
+    ]
+  }
+}
