@@ -26,6 +26,22 @@ describe("xstate middleware", () => {
           TIMER: "green"
         },
         onEntry: ["mockFn"]
+      },
+      states: {
+        initial: "walk",
+        states: {
+          walk: {
+            on: {
+              PED_COUNTDOWN: "wait"
+            }
+          },
+          wait: {
+            on: {
+              PED_COUNTDOWN: "stop"
+            }
+          },
+          stop: {}
+        }
       }
     }
   }

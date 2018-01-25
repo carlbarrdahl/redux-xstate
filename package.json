@@ -1,6 +1,6 @@
 {
   "name": "redux-xstate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "xstate middleware for redux",
   "main": "dist/index.js",
   "scripts": {

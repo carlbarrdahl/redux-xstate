@@ -1,19 +1,24 @@
-export function createMiddleware(machine, actionMap) {
-  // TODO: check hierarchical states
-  const validActions = Object.keys(machine.config.states)
-    .map(key => Object.keys(machine.config.states[key].on))
+function getActions(states) {
+  return Object.keys(states)
+    .map(
+      key =>
+        states[key].states
+          ? getActions(states[key].states)
+          : states[key].on ? Object.keys(states[key].on) : []
+    )
     .reduce((a, b) => a.concat(b), [])
     .filter((key, pos, arr) => arr.indexOf(key) === pos)
+}
 
-  return store => next => action => {
+export function createMiddleware(machine, actionMap) {
+  const validActions = getActions(machine.config.states)
+
+  return ({ dispatch, getState }) => next => action => {
     if (validActions.includes(action.type)) {
-      const nextState = machine.transition(
-        store.getState().machine.value,
-        action,
-        store.getState()
-      )
+      const state = getState()
+      const nextState = machine.transition(state.machine.value, action, state)
 
-      store.dispatch({
+      dispatch({
         type: "@@machine/UPDATE_STATE",
         payload: nextState
       })
@@ -21,7 +26,7 @@ export function createMiddleware(machine, actionMap) {
       nextState.actions
         .map(key => actionMap[key])
         .filter(Boolean)
-        .forEach(action => action(store.dispatch, store.getState()))
+        .forEach(action => action(dispatch, state))
     }
 
     next(action)
@@ -29,11 +34,6 @@ export function createMiddleware(machine, actionMap) {
 }
 
 export function createReducer(initialState) {
-  return (state = initialState, { type, payload }) => {
-    switch (type) {
-      case "@@machine/UPDATE_STATE":
-        return payload
-    }
-    return state
-  }
+  return (state = initialState, { type, payload }) =>
+    type === "@@machine/UPDATE_STATE" ? payload : state
 }
