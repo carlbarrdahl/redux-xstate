@@ -26,7 +26,7 @@ export function createMiddleware(machine, actionMap) {
       nextState.actions
         .map(key => actionMap[key])
         .filter(Boolean)
-        .forEach(action => action(dispatch, state))
+        .forEach(fn => fn(dispatch, state, action))
     }
 
     next(action)

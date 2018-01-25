@@ -63,6 +63,7 @@ describe("xstate middleware", () => {
     store.dispatch({ type: "TIMER" })
 
     expect(store.getState().machine.value).toEqual({ red: "walk" })
-    expect(actionMap.mockFn).toBeCalled()
+    expect(actionMap.mockFn.mock.calls.length).toBe(1)
+    expect(actionMap.mockFn.mock.calls[0][2]).toEqual({ type: "TIMER" })
   })
 })
