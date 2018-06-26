@@ -29,7 +29,7 @@ export function createMiddleware(machine, actionMap) {
         .forEach(fn => fn(dispatch, state, action))
     }
 
-    next(action)
+    return next(action)
   }
 }
 
