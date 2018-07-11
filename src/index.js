@@ -4,7 +4,7 @@ function getActions(states) {
       const state = states[key]
       const actions = Object.keys(state.on || {})
 
-      return state.states ? getActions(state.states) : actions
+      return state.states ? getActions(state.states).concat(actions) : actions
     })
     .reduce((a, b) => a.concat(b), [])
     .filter((key, pos, arr) => arr.indexOf(key) === pos)
